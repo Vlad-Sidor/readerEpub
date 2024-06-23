@@ -1163,8 +1163,10 @@ App.prototype.onSearchClick1 = function (searchTerm) {
             results.slice(0, 10).forEach(result => {
                 let resultEl = document.createElement("div");
                 resultEl.className = "search-result";
+                let excerpt = result.excerpt.trim().replace(/^(\.\.\.|\s)+/, '');
+
                 resultEl.innerHTML = `
-                    <a href="${result.cfi}" class="result-link">${result.excerpt.trim()}</a>
+                    <a href="${result.cfi}" class="result-link">${excerpt}</a>
                 `;
                 resultEl.querySelector(".result-link").addEventListener("click", this.onResultClick.bind(this, result.cfi));
                 container.appendChild(resultEl);
@@ -1185,8 +1187,10 @@ App.prototype.onSearchClick2 = function (searchTerm) {
             results.slice(0, 10).forEach(result => {
                 let resultEl = document.createElement("div");
                 resultEl.className = "search-result";
+                let excerpt = result.excerpt.trim().replace(/^(\.\.\.|\s)+/, '');
+
                 resultEl.innerHTML = `
-                    <a href="${result.cfi}" class="result-link">${result.excerpt.trim()}</a>
+                    <a href="${result.cfi}" class="result-link">${excerpt}</a>
                 `;
                 resultEl.querySelector(".result-link").addEventListener("click", this.onResultClick.bind(this, result.cfi));
                 container.appendChild(resultEl);
@@ -1206,8 +1210,11 @@ App.prototype.onSearchClick3 = function (searchTerm) {
         results.slice(0, 10).forEach(result => {
             let resultEl = document.createElement("div");
             resultEl.className = "search-result";
+
+            let excerpt = result.excerpt.trim().replace(/^(\.\.\.|\s)+/, '');
+
             resultEl.innerHTML = `
-                <a href="${result.cfi}" class="result-link">${result.excerpt.trim()}</a>
+                <a href="${result.cfi}" class="result-link">${excerpt}</a>
             `;
             resultEl.querySelector(".result-link").addEventListener("click", this.onResultClick.bind(this, result.cfi));
             container.appendChild(resultEl);
@@ -1224,8 +1231,10 @@ App.prototype.onSearchClick4 = function (searchTerm) {
             console.log(result.cfi)
             let resultEl = document.createElement("div");
             resultEl.className = "search-result";
+            let excerpt = result.excerpt.trim().replace(/^(\.\.\.|\s)+/, '');
+
             resultEl.innerHTML = `
-                <a href="${result.cfi}" class="result-link">${result.excerpt.trim()}</a>
+                <a href="${result.cfi}" class="result-link">${excerpt}</a>
             `;
             resultEl.querySelector(".result-link").addEventListener("click", this.onResultClick.bind(this, result.cfi));
             container.appendChild(resultEl);
@@ -1241,8 +1250,10 @@ App.prototype.onSearchClick5 = function (searchTerm) {
         results.slice(0, 20).forEach(result => {
             let resultEl = document.createElement("div");
             resultEl.className = "search-result";
+            let excerpt = result.excerpt.trim().replace(/^(\.\.\.|\s)+/, '');
+
             resultEl.innerHTML = `
-                <a href="${result.cfi}" class="result-link">${result.excerpt.trim()}</a>
+                <a href="${result.cfi}" class="result-link">${excerpt}</a>
             `;
             resultEl.querySelector(".result-link").addEventListener("click", this.onResultClick.bind(this, result.cfi));
             container.appendChild(resultEl);
@@ -1258,8 +1269,10 @@ App.prototype.onSearchClick6 = function (searchTerm) {
         results.slice(0, 10).forEach(result => {
             let resultEl = document.createElement("div");
             resultEl.className = "search-result";
+            let excerpt = result.excerpt.trim().replace(/^(\.\.\.|\s)+/, '');
+
             resultEl.innerHTML = `
-                <a href="${result.cfi}" class="result-link">${result.excerpt.trim()}</a>
+                <a href="${result.cfi}" class="result-link">${excerpt}</a>
             `;
             resultEl.querySelector(".result-link").addEventListener("click", this.onResultClick.bind(this, result.cfi));
             container.appendChild(resultEl);
@@ -1277,8 +1290,10 @@ App.prototype.onSearchClick7 = function (searchTerm) {
         results.slice(0, 10).forEach(result => {
             let resultEl = document.createElement("div");
             resultEl.className = "search-result";
+            let excerpt = result.excerpt.trim().replace(/^(\.\.\.|\s)+/, '');
+
             resultEl.innerHTML = `
-                <a href="${result.cfi}" class="result-link">${result.excerpt.trim()}</a>
+                <a href="${result.cfi}" class="result-link">${excerpt}</a>
             `;
             resultEl.querySelector(".result-link").addEventListener("click", this.onResultClick.bind(this, result.cfi));
             container.appendChild(resultEl);
@@ -1294,8 +1309,10 @@ App.prototype.onSearchClick8 = function (searchTerm) {
         results.slice(0, 10).forEach(result => {
             let resultEl = document.createElement("div");
             resultEl.className = "search-result";
+            let excerpt = result.excerpt.trim().replace(/^(\.\.\.|\s)+/, '');
+
             resultEl.innerHTML = `
-                <a href="${result.cfi}" class="result-link">${result.excerpt.trim()}</a>
+                <a href="${result.cfi}" class="result-link">${excerpt}</a>
             `;
             resultEl.querySelector(".result-link").addEventListener("click", this.onResultClick.bind(this, result.cfi));
             container.appendChild(resultEl);
@@ -1311,8 +1328,10 @@ App.prototype.onSearchClick9 = function (searchTerm) {
         results.slice(0, 10).forEach(result => {
             let resultEl = document.createElement("div");
             resultEl.className = "search-result";
+            let excerpt = result.excerpt.trim().replace(/^(\.\.\.|\s)+/, '');
+
             resultEl.innerHTML = `
-                <a href="${result.cfi}" class="result-link">${result.excerpt.trim()}</a>
+                <a href="${result.cfi}" class="result-link">${excerpt}</a>
             `;
             resultEl.querySelector(".result-link").addEventListener("click", this.onResultClick.bind(this, result.cfi));
             container.appendChild(resultEl);
@@ -1328,8 +1347,10 @@ App.prototype.onSearchClick10 = function (searchTerm) {
         results.slice(0, 10).forEach(result => {
             let resultEl = document.createElement("div");
             resultEl.className = "search-result";
+            let excerpt = result.excerpt.trim().replace(/^(\.\.\.|\s)+/, '');
+
             resultEl.innerHTML = `
-                <a href="${result.cfi}" class="result-link">${result.excerpt.trim()}</a>
+                <a href="${result.cfi}" class="result-link">${excerpt}</a>
             `;
             resultEl.querySelector(".result-link").addEventListener("click", this.onResultClick.bind(this, result.cfi));
             container.appendChild(resultEl);
@@ -1345,8 +1366,10 @@ App.prototype.onSearchClick11 = function (searchTerm) {
         results.slice(0, 10).forEach(result => {
             let resultEl = document.createElement("div");
             resultEl.className = "search-result";
+            let excerpt = result.excerpt.trim().replace(/^(\.\.\.|\s)+/, '');
+
             resultEl.innerHTML = `
-                <a href="${result.cfi}" class="result-link">${result.excerpt.trim()}</a>
+                <a href="${result.cfi}" class="result-link">${excerpt}</a>
             `;
             resultEl.querySelector(".result-link").addEventListener("click", this.onResultClick.bind(this, result.cfi));
             container.appendChild(resultEl);
@@ -1362,8 +1385,10 @@ App.prototype.onSearchClick12 = function (searchTerm) {
         results.slice(0, 20).forEach(result => {
             let resultEl = document.createElement("div");
             resultEl.className = "search-result";
+            let excerpt = result.excerpt.trim().replace(/^(\.\.\.|\s)+/, '');
+
             resultEl.innerHTML = `
-                <a href="${result.cfi}" class="result-link">${result.excerpt.trim()}</a>
+                <a href="${result.cfi}" class="result-link">${excerpt}</a>
             `;
             resultEl.querySelector(".result-link").addEventListener("click", this.onResultClick.bind(this, result.cfi));
             container.appendChild(resultEl);
