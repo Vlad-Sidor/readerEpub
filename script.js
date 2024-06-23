@@ -1085,43 +1085,44 @@ App.prototype.doSearch14 = function (q) {
 */
 
 
-App.prototype.doSearchall = function (q) {
-    return Promise.all(this.state.book.spine.spineItems.map(async (item) => {
-        try {
-            if (!item) {
-                console.error("Item is undefined");
-                return [];
-            }
+App.prototype.doSearchall = async function (q) {
+    try {
+        const results_1 = await Promise.all(this.state.book.spine.spineItems.map(async (item) => {
+            try {
+                if (!item) {
+                    console.error("Item is undefined");
+                    return [];
+                }
 
-            const doc = await item.load(this.state.book.load.bind(this.state.book));
-            
-            if (!doc) {
-                console.error("Document is undefined for item", item);
-                return [];
-            }
+                const doc = await item.load(this.state.book.load.bind(this.state.book));
 
-            // Проверка наличия contents и document
-            if (!item.contents || !item.document) {
-                console.error("Item contents or document is undefined", item);
-                console.log("Item details:", item);
+                if (!doc) {
+                    console.error("Document is undefined for item", item);
+                    return [];
+                }
+
+                // Проверка наличия contents и document
+                if (!item.contents || !item.document) {
+                    console.error("Item contents or document is undefined", item);
+                    console.log("Item details:", item);
+                    item.unload();
+                    return [];
+                }
+
+                const results = item.find(q);
                 item.unload();
+
+                return results;
+            } catch (error) {
+                console.error("Error processing item", item, error);
                 return [];
             }
-
-            const results = item.find(q);
-            item.unload();
-            
-            return results;
-        } catch (error) {
-            console.error("Error processing item", item, error);
-            return [];
-        }
-    })).then(results => {
-        return [].concat(...results);
-    }).catch(error => {
-        console.error("Error in doSearchall", error);
-        return Promise.reject(error);
-    });
+        }));
+        return [].concat(...results_1);
+    } catch (error_1) {
+        console.error("Error in doSearchall", error_1);
+        return await Promise.reject(error_1);
+    }
 };
     
 App.prototype.doSearch1 = App.prototype.doSearchall;
