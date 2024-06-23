@@ -1086,13 +1086,25 @@ App.prototype.doSearch14 = function (q) {
 
 
 App.prototype.doSearchall = async function (q) {
-     return Promise.all(this.state.book.spine.spineItems.map(item => {
-        return item.load(this.state.book.load.bind(this.state.book)).then(doc => {
-            let results = item.find(q);
-            item.unload();
-            return Promise.resolve(results);
+     try {
+        const searchPromises = this.state.book.spine.spineItems.map(async item => {
+            try {
+                await item.load(this.state.book.load.bind(this.state.book));
+                const results = item.find(q);
+                item.unload();
+                return results;
+            } catch (itemError) {
+                console.error("Error processing spine item", item, itemError);
+                return []; // Возвращаем пустой массив в случае ошибки
+            }
         });
-    })).then(results => Promise.resolve([].concat.apply([], results)));
+
+        const results = await Promise.all(searchPromises);
+        return results.flat();
+    } catch (error) {
+        console.error("Error in doSearchall", error);
+        throw error; // Пробрасываем ошибку выше
+    }
 };
     
 App.prototype.doSearch1 = App.prototype.doSearchall;
