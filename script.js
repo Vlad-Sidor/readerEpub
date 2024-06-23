@@ -1089,13 +1089,17 @@ App.prototype.doSearchall = async function (q) {
     try {
         const searchPromises = this.state.book.spine.spineItems.map(async item => {
             try {
+                // Принудительно выгружаем элемент перед загрузкой
+                if (item.isLoaded) {
+                    item.unload();
+                }
+
                 // Загружаем элемент
                 await item.load(this.state.book.load.bind(this.state.book));
 
                 // Проверяем, что элемент загружен корректно
                 if (!item.document) {
                     console.warn(`Document for item ${item.href} is undefined or null.`);
-                    item.unload(); // Выгружаем элемент
                     return [];
                 }
 
@@ -1128,6 +1132,7 @@ App.prototype.doSearchall = async function (q) {
         throw error; // Пробрасываем ошибку выше
     }
 };
+
 
 
 
