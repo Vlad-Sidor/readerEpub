@@ -1086,26 +1086,51 @@ App.prototype.doSearch14 = function (q) {
 
 
 App.prototype.doSearchall = async function (q) {
-     try {
+    try {
         const searchPromises = this.state.book.spine.spineItems.map(async item => {
             try {
+                // Загружаем элемент
                 await item.load(this.state.book.load.bind(this.state.book));
+
+                // Проверяем, что элемент загружен корректно
+                if (!item.document) {
+                    console.warn(`Document for item ${item.href} is undefined or null.`);
+                    item.unload(); // Выгружаем элемент
+                    return [];
+                }
+
+                // Выполняем поиск
                 const results = item.find(q);
+
+                // Проверяем результаты
+                if (!results) {
+                    console.warn(`No results found for query ${q} in item ${item.href}.`);
+                    item.unload(); // Выгружаем элемент
+                    return [];
+                }
+
+                // Выгружаем элемент после поиска
                 item.unload();
                 return results;
+
             } catch (itemError) {
                 console.error("Error processing spine item", item, itemError);
                 return []; // Возвращаем пустой массив в случае ошибки
             }
         });
 
+        // Собираем все результаты поиска
         const results = await Promise.all(searchPromises);
         return results.flat();
+
     } catch (error) {
         console.error("Error in doSearchall", error);
         throw error; // Пробрасываем ошибку выше
     }
 };
+
+
+
     
 App.prototype.doSearch1 = App.prototype.doSearchall;
 App.prototype.doSearch2 = App.prototype.doSearchall;
@@ -1122,37 +1147,47 @@ App.prototype.doSearch12 = App.prototype.doSearchall;
 
 
 App.prototype.onSearchClick1 = function (searchTerm) {
-    this.doSearch1(searchTerm).then(results => {
-        const container = this.qs(".setting-content1");
-        container.innerHTML = ""; // Очистка контейнера
+    this.doSearch1(searchTerm)
+        .then(results => {
+            const container = this.qs(".setting-content1");
+            container.innerHTML = ""; // Очистка контейнера
 
-        results.slice(0, 10).forEach(result => {
-            let resultEl = document.createElement("div");
-            resultEl.className = "search-result";
-            resultEl.innerHTML = `
-                <a href="${result.cfi}" class="result-link">${result.excerpt.trim()}</a>
-            `;
-            resultEl.querySelector(".result-link").addEventListener("click", this.onResultClick.bind(this, result.cfi));
-            container.appendChild(resultEl);
+            results.slice(0, 10).forEach(result => {
+                let resultEl = document.createElement("div");
+                resultEl.className = "search-result";
+                resultEl.innerHTML = `
+                    <a href="${result.cfi}" class="result-link">${result.excerpt.trim()}</a>
+                `;
+                resultEl.querySelector(".result-link").addEventListener("click", this.onResultClick.bind(this, result.cfi));
+                container.appendChild(resultEl);
+            });
+        })
+        .catch(err => {
+            console.error("Error searching book", err);
+            this.fatal("error searching book", err);
         });
-    }).catch(err => this.fatal("error searching book", err));
 };
 
 App.prototype.onSearchClick2 = function (searchTerm) {
-    this.doSearch2(searchTerm).then(results => {
-        const container = this.qs(".setting-content2");
-        container.innerHTML = ""; // Очистка контейнера
+    this.doSearch2(searchTerm)
+        .then(results => {
+            const container = this.qs(".setting-content2");
+            container.innerHTML = ""; // Очистка контейнера
 
-        results.slice(0, 10).forEach(result => {
-            let resultEl = document.createElement("div");
-            resultEl.className = "search-result";
-            resultEl.innerHTML = `
-                <a href="${result.cfi}" class="result-link">${result.excerpt.trim()}</a>
-            `;
-            resultEl.querySelector(".result-link").addEventListener("click", this.onResultClick.bind(this, result.cfi));
-            container.appendChild(resultEl);
+            results.slice(0, 10).forEach(result => {
+                let resultEl = document.createElement("div");
+                resultEl.className = "search-result";
+                resultEl.innerHTML = `
+                    <a href="${result.cfi}" class="result-link">${result.excerpt.trim()}</a>
+                `;
+                resultEl.querySelector(".result-link").addEventListener("click", this.onResultClick.bind(this, result.cfi));
+                container.appendChild(resultEl);
+            });
+        })
+        .catch(err => {
+            console.error("Error searching book", err);
+            this.fatal("error searching book", err);
         });
-    }).catch(err => this.fatal("error searching book", err));
 };
 
 App.prototype.onSearchClick3 = function (searchTerm) {
