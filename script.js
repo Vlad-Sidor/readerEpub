@@ -1089,21 +1089,24 @@ App.prototype.doSearchall = async function (q) {
     try {
         const searchPromises = this.state.book.spine.spineItems.map(async item => {
             try {
-                // Принудительно выгружаем элемент перед загрузкой
-                if (item.isLoaded) {
+                // Принудительно выгружаем элемент перед загрузкой, если он уже загружен
+                if (item.document) {
+                    console.log(`Unloading item ${item.href} before reloading.`);
                     item.unload();
                 }
 
                 // Загружаем элемент
+                console.log(`Loading item ${item.href}`);
                 await item.load(this.state.book.load.bind(this.state.book));
 
                 // Проверяем, что элемент загружен корректно
                 if (!item.document) {
-                    console.warn(`Document for item ${item.href} is undefined or null.`);
+                    console.warn(`Document for item ${item.href} is undefined or null after loading.`);
                     return [];
                 }
 
                 // Выполняем поиск
+                console.log(`Searching in item ${item.href}`);
                 const results = item.find(q);
 
                 // Проверяем результаты
@@ -1114,6 +1117,7 @@ App.prototype.doSearchall = async function (q) {
                 }
 
                 // Выгружаем элемент после поиска
+                console.log(`Unloading item ${item.href} after search.`);
                 item.unload();
                 return results;
 
@@ -1132,7 +1136,6 @@ App.prototype.doSearchall = async function (q) {
         throw error; // Пробрасываем ошибку выше
     }
 };
-
 
 
 
