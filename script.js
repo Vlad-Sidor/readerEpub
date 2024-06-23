@@ -1101,13 +1101,7 @@ App.prototype.doSearchall = async function (q) {
                     return [];
                 }
 
-                // Проверка наличия contents и document
-                if (!item.contents || !item.document) {
-                    console.error("Item contents or document is undefined", item);
-                    console.log("Item details:", item);
-                    item.unload();
-                    return [];
-                }
+       
 
                 const results = item.find(q);
                 item.unload();
