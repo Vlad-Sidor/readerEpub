@@ -1086,37 +1086,13 @@ App.prototype.doSearch14 = function (q) {
 
 
 App.prototype.doSearchall = async function (q) {
-    try {
-        const results_1 = await Promise.all(this.state.book.spine.spineItems.map(async (item) => {
-            try {
-                if (!item) {
-                    console.error("Item is undefined");
-                    return [];
-                }
-
-                const doc = await item.load(this.state.book.load.bind(this.state.book));
-
-                if (!doc) {
-                    console.error("Document is undefined for item", item);
-                    return [];
-                }
-
-       
-
-                const results = item.find(q);
-                item.unload();
-
-                return results;
-            } catch (error) {
-                console.error("Error processing item", item, error);
-                return [];
-            }
-        }));
-        return [].concat(...results_1);
-    } catch (error_1) {
-        console.error("Error in doSearchall", error_1);
-        return await Promise.reject(error_1);
-    }
+     return Promise.all(this.state.book.spine.spineItems.map(item => {
+        return item.load(this.state.book.load.bind(this.state.book)).then(doc => {
+            let results = item.find(q);
+            item.unload();
+            return Promise.resolve(results);
+        });
+    })).then(results => Promise.resolve([].concat.apply([], results)));
 };
     
 App.prototype.doSearch1 = App.prototype.doSearchall;
